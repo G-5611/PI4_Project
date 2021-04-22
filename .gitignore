@@ -1,0 +1,23 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/pisite/node_modules
+/pisite/.pnp
+/pisite/.pnp.js
+
+# testing
+/pisite/coverage
+
+# production
+/pisite/build
+
+# misc
+/pisite/.DS_Store
+/pisite/.env.local
+/pisite/.env.development.local
+/pisite/.env.test.local
+/pisite/.env.production.local
+
+npm-debug.log*
+/pisite/yarn-debug.log*
+/pisite/yarn-error.log*
