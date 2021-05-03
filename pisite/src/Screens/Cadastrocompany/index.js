@@ -5,6 +5,8 @@ export const Cadastrocompany = () => {
 
   return (
     <div className="panel-registration">
+      <h3>Registro de Empresa</h3>
+      <br />
       <form>
         <div className="form-group">
           <input className="form-control" id="nome-fantasia" placeholder="Nome Fantasia" />
@@ -46,11 +48,14 @@ export const Cadastrocompany = () => {
             Please select a valid state.
           </div>
         </div>
+        <button className="btn btn-primary" type="submit">
+          Cadastrar
+        </button>
 
+        <br />
+
+        <Link className="btn btn-link" to="/">Voltar</Link>
       </form>
-      <button className="btn btn-primary" type="submit">
-      Cadastrar
-      </button>
     </div>
   )
 }
