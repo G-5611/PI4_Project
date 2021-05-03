@@ -11,7 +11,7 @@ export const StartPage = () => {
 
       <br />
 
-      <button type="button" className="btn btn-primary">CADASTRE-SE JA</button>
+      <Link type="button" className="btn btn-primary" to="/registeruser">CADASTRE-SE JA</Link>
 
       <br />
       <br />
