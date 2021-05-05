@@ -19,12 +19,13 @@ export const Login = () => {
           <input className="form-control" id="passowrd-input" placeholder="Password" />
         </div>
 
-        <Link className="btn btn-link" to="/logincompany">Sou uma empresa</Link>
-
         <br />
 
         <button type="submit" className="btn btn-primary">Login</button>
 
+        <br />
+
+        <Link className="btn btn-link" to="/">Voltar</Link>
       </form>
     </div>
   )
