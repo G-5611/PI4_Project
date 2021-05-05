@@ -21,3 +21,5 @@
 npm-debug.log*
 /pisite/yarn-debug.log*
 /pisite/yarn-error.log*
+
+/piapi/.env
