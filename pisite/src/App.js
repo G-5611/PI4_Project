@@ -5,6 +5,7 @@ import { HashRouter, Switch, Route } from "react-router-dom"
 import { StartPage } from './Screens/StartPage';
 import { Cadastrocompany } from './Screens/Cadastrocompany';
 import { Cadastrouser } from './Screens/Cadastrouser';
+import { Profileuser } from './Screens/Profileuser';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route exact path="/logincompany" component={LoginCompany} />
           <Route exact path="/registercompany" component={Cadastrocompany} />
           <Route exact path="/registeruser" component={Cadastrouser} />
+          <Route exact path="/profileuser" component={Profileuser} />
         </Switch>
       </HashRouter>
     </div>
