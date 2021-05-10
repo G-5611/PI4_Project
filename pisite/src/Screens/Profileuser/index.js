@@ -7,6 +7,11 @@ import "./index.css"
 
 export const Profileuser = () => {
   const [Nome, setNome] = useState("Fulano");
+  const [UF, setUF] = useState("DF")
+  const [Instituicao, setInstituicao] = useState("CEUB")
+  const [Curso, setCurso] = useState("Computação")
+  const [Anoformacao, setAnoformacao] = useState("15/05/2019")
+  const [Biografia, setBiografia] = useState("Insira Biografia aqui.")
 
   return (
     <div >
@@ -16,9 +21,7 @@ export const Profileuser = () => {
 
         <h3>Perfil do Usuário</h3>
 
-        <br />
-
-        <img src="./assets/Logo.png" />
+        <img className="profile-pic" src="./assets/Blank-profile.png" />
 
         <div className="form-group row">
           <label className="col-sm-4 col-form-label text-left"><b>Nome Completo:</b></label>
@@ -27,34 +30,36 @@ export const Profileuser = () => {
           </div>
         </div>
 
-        <div className="form-group">
-          <select className="form-control" id="uf-select" required>
-            <option selected disabled value="">UF...</option>
-            <option>DF</option>
-          </select>
+        <div className="form-group row">
+          <label className="col-sm-4 col-form-label text-left"><b>UF:</b></label>
+          <div className="col-sm-7">
+            <div className="form-control-plaintext text-left">{UF}</div>
+          </div>
         </div>
-        <div className="form-group">
-          <input className="form-control" id="instituicao" placeholder="Instituição" />
+        <div className="form-group row">
+          <label className="col-sm-4 col-form-label text-left"><b>Instituição:</b></label>
+          <div className="col-sm-7">
+            <div className="form-control-plaintext text-left">{Instituicao}</div>
+          </div>
         </div>
-        <div className="form-group">
-          <input className="form-control" id="ano-formacao" placeholder="Ano da Formação" />
+        <div className="form-group row">
+          <label className="col-sm-4 col-form-label text-left"><b>Ano da Formação:</b></label>
+          <div className="col-sm-7">
+            <div className="form-control-plaintext text-left">{Anoformacao}</div>
+          </div>
         </div>
-        <div className="form-group">
-          <select className="form-control" id="curso-select" required>
-            <option selected disabled value="">Curso...</option>
-            <option>Computação</option>
-          </select>
+        <div className="form-group row">
+          <label className="col-sm-4 col-form-label text-left"><b>Curso:</b></label>
+          <div className="col-sm-7">
+            <div className="form-control-plaintext text-left">{Curso}</div>
+          </div>
         </div>
-        <div className="form group">
-          <input className="form-control" id="biografia-usuario" placeholder="Biografia" />
-        </div>
-        <br />
+        <div className="biografia text-left">
 
-        <Link className="btn btn-link" to="/profileuser">Perfil do Usuário</Link>
+          <label>{Biografia}</label>
+        </div>
 
-        <br />
 
-        <Link className="btn btn-link" to="/">Voltar</Link>
       </div>
     </div>
   )
