@@ -20,7 +20,7 @@ export const Login = (props) => {
 
       await axios.post(env.apiUrl + "login", body);
 
-      props.history.push("/perfil");
+      props.history.push("/profileuser");
     }
     catch (err) {
       const erro = err.response ? err.response.data.err : err;

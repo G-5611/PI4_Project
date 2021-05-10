@@ -18,6 +18,11 @@ export const Cadastrouser = () => {
   const [Anoforma, SetAnoforma] = useState("")
   const [Curso, setCurso] = useState("")
   const [Password, setPassword] = useState("")
+  const [Confirmpassword, setConfirmpassword] = useState("")
+  const [Complemento, setComplemento] = useState('')
+  const [Email, setEmail] = useState('')
+  const [Telefone, setTelefone] = useState('')
+  const [Cidade, setCidade] = useState('')
 
   async function doCadastro(e) {
     e.preventDefault();
@@ -40,6 +45,14 @@ export const Cadastrouser = () => {
         return;
       }
 
+      if (Email === "") {
+        setTextoAlerta('Campo "Email" obrigatório.');
+      }
+
+      if (Telefone === "") {
+        setTextoAlerta('Campo "Telefone" obrigatório.')
+      }
+
       if (CEP === "") {
         setTextoAlerta('Campo "CEP" obrigatório.');
         return;
@@ -47,8 +60,13 @@ export const Cadastrouser = () => {
 
       if (UF === "") {
         setTextoAlerta('Campo "UF" obrigatório.')
+        return;
       }
 
+      if (Password !== Confirmpassword) {
+        setTextoAlerta("Senhas não coincidem")
+        return;
+      }
       /*if (!moment(DataNascimento, "DD/MM/YYYY").isValid()) {
         setTextoAlerta('"Data de Nascimento" inválida.');
         return;
@@ -64,7 +82,11 @@ export const Cadastrouser = () => {
         instituicao: Instituicao,
         anoforma: Anoforma,
         curso: Curso,
-        password: Password
+        password: Password,
+        email: Email,
+        complemento: Complemento,
+        telefone: Telefone,
+        cidade: Cidade
 
       }
 
@@ -99,11 +121,24 @@ export const Cadastrouser = () => {
         </div>
 
         <div className="form-group">
+          <input className="form-control" id="email" placeholder="Email" value={Email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
+
+
+        <div className="form-group">
           <input className="form-control" id="cep" placeholder="CEP" value={CEP} onChange={(e) => setCEP(e.target.value)} />
         </div>
 
         <div className="form-group">
           <input className="form-control" id="endereco" placeholder="Endereço" value={Endereco} onChange={(e) => setEndereco(e.target.value)} />
+        </div>
+
+        <div className="form-group">
+          <input className="form-control" id="complemento" placeholder="Complemento" value={Complemento} onChange={(e) => setComplemento(e.target.value)} />
+        </div>
+
+        <div className="form-group">
+          <input className="form-control" id="cidade" placeholder="Cidade" value={Cidade} onChange={(e) => setCidade(e.target.value)} />
         </div>
 
         <div className="form-group">
@@ -117,11 +152,11 @@ export const Cadastrouser = () => {
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="instituicao" placeholder="Instituição" value={Instituicao} onChange={(e) => SetInstituicao(e.target.value)} />
+          <input className="form-control" id="telefone" placeholder="Telefone" value={Telefone} onChange={(e) => setTelefone(e.target.value)} />
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="ano-formacao" type={"date"} placeholder="Ano da Formação" value={Anoforma} onChange={(e) => SetAnoforma(e.target.value)} />
+          <input className="form-control" id="instituicao" placeholder="Instituição" value={Instituicao} onChange={(e) => SetInstituicao(e.target.value)} />
         </div>
 
         <div className="form-group">
@@ -135,7 +170,17 @@ export const Cadastrouser = () => {
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="senha" placeholder="Senha" value={Password} onChange={(e) => setPassword(e.target.value)} />
+          <input className="form-control" id="ano-formacao" type={"date"} placeholder="Ano da Formação" value={Anoforma} onChange={(e) => SetAnoforma(e.target.value)} />
+        </div>
+
+
+
+        <div className="form-group">
+          <input className="form-control" id="senha" type={"password"} placeholder="Senha" value={Password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+
+        <div className="form-group">
+          <input className="form-control" id="senha" type={"password"} placeholder="Confirmar Senha" value={Confirmpassword} onChange={(e) => setConfirmpassword(e.target.value)} />
         </div>
 
         <button className="btn btn-primary" type="submit" onClick={doCadastro}>
