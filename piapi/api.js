@@ -81,6 +81,36 @@ async function usercreate(req, res) {
     }
 }
 
+async function usercreatecompany(req, res) {
+    try {
+        const bodyData = req.body;
+
+        const usercompanycreatequery = `INSERT INTO TB_USEREMPRESA(UENOMEFANTASIA, UERAZAOSOCIAL, UECNPJ, UECEP, UEENDERECO, UECOMPLEMENTO, UEIDUF, UEEMAIL, UETELEFONE, UENOMECONTATO, UECPFCONTATO, UETELEFONECONTATO, UEEMAILCONTATO, UESENHA, UEBIO )
+        VALUES ('${bodyData.nomefantasia}', '${bodyData.razaosocial}', '${bodyData.cnpj}', '${bodyData.cep}', '${bodyData.endereco}', '${bodyData.complemento}', '${bodyData.uf}', '${bodyData.email}', '${bodyData.telefone}', '${bodyData.nomecontato}', '${bodyData.cpfcontato}', '${bodyData.telefonecontato}', '${bodyData.emailcontato}', '${bodyData.senha}', '')`
+
+        connection = await new sql.ConnectionPool(config.db_settings).connect();
+
+        const result = await connection.request().query(usercompanycreatequery);
+
+        if (result.rowsAffected.length === 0) {
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify("Houve um erro na criação da conta!"));
+            return;
+        }
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            "msg": "Conta criada."
+        }));
+    }
+    catch (err) {
+        console.log(err);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            "err": err
+        }));
+    }
+}
+
 async function logincompany(req, res) {
     try {
         const bodyData = req.body;
@@ -150,7 +180,9 @@ async function login(req, res) {
 
 module.exports = {
     usercreate: usercreate,
+    usercreatecompany: usercreatecompany,
     login: login,
     getuser: getuser,
     logincompany: logincompany
+
 }
