@@ -80,6 +80,39 @@ async function usercreate(req, res) {
         }));
     }
 }
+
+async function logincompany(req, res) {
+    try {
+        const bodyData = req.body;
+
+        const logincompanyquery = `SELECT * FROM TB_USEREMPRESA WHERE UECNPJ = '${bodyData.cnpj}' AND UESENHA = '${bodyData.senha}'`
+
+        connection = await new sql.ConnectionPool(config.db_settings).connect();
+
+        const loginResult = await connection.request().query(logincompanyquery);
+
+        if (loginResult.recordset.length === 0) {
+            res.writeHead(401, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({
+                "err": "CNPJ ou Senha incorretos!"
+            }));
+            return;
+        }
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            "id": loginResult.recordset[0].UEID
+        }));
+    }
+    catch (err) {
+        console.log(err);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            "err": err
+        }));
+    }
+}
+
+
 // function that writes the file
 async function login(req, res) {
     try {
@@ -118,5 +151,6 @@ async function login(req, res) {
 module.exports = {
     usercreate: usercreate,
     login: login,
-    getuser: getuser
+    getuser: getuser,
+    logincompany: logincompany
 }

@@ -37,5 +37,6 @@ app.use(bodyParser.json());
 app.post("/login", (req, res) => api.login(req, res));
 app.post("/user/create", (req, res) => api.usercreate(req, res));
 app.get("/user/profile", (req, res) => api.getuser(req, res))
+app.post("/logincompany", (req, res) => api.logincompany(req, res))
 
 module.exports = app;
