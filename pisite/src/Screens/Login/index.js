@@ -18,9 +18,9 @@ export const Login = (props) => {
         senha: Senha
       }
 
-      await axios.post(env.apiUrl + "login", body);
+      const res = await axios.post(env.apiUrl + "login", body);
 
-      props.history.push("/profileuser");
+      props.history.push(`/profileuser/${res.data.id}`);
     }
     catch (err) {
       const erro = err.response ? err.response.data.err : err;

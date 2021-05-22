@@ -36,5 +36,6 @@ app.use(bodyParser.json());
 // Endpoint to be called from the client side
 app.post("/login", (req, res) => api.login(req, res));
 app.post("/user/create", (req, res) => api.usercreate(req, res));
+app.get("/user/profile", (req, res) => api.getuser(req, res))
 
 module.exports = app;

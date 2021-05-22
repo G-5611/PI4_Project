@@ -1,17 +1,45 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { Navbar } from "./../../Componentes/Navbar"
+
+import axios from "axios";
+
+import moment from "moment";
+
+import env from "./../../env.json"
 
 import "./index.css"
 
 
-export const Profileuser = () => {
-  const [Nome, setNome] = useState("Fulano");
-  const [UF, setUF] = useState("DF")
-  const [Instituicao, setInstituicao] = useState("CEUB")
-  const [Curso, setCurso] = useState("Computação")
-  const [Anoformacao, setAnoformacao] = useState("15/05/2019")
-  const [Biografia, setBiografia] = useState("Insira Biografia aqui.")
+export const Profileuser = ({
+  ...defaultprops
+}) => {
+  const [Nome, setNome] = useState("");
+  const [UF, setUF] = useState("")
+  const [Instituicao, setInstituicao] = useState("")
+  const [Curso, setCurso] = useState("")
+  const [Anoformacao, setAnoformacao] = useState("")
+  const [Biografia, setBiografia] = useState("")
+  const [UserID, setUserId] = useState(0)
+
+  useEffect(() => {
+    console.log(defaultprops.match.params.id)
+    setUserId(defaultprops.match.params.id)
+  }, [defaultprops.match])
+
+  useEffect(async () => {
+    console.log(UserID)
+    if (UserID > 0) {
+      const res = (await axios.get(env.apiUrl + `user/profile?id=${UserID}`)).data;
+      console.log(res)
+
+      setNome(res.nome)
+      setUF(res.uf)
+      setCurso(res.curso)
+      setAnoformacao(moment(res.anoformacao, "YYYY-MM-DD").format("DD/MM/YYYY"))
+      setInstituicao(res.instituicao)
+    }
+  }, [UserID])
 
   return (
     <div >

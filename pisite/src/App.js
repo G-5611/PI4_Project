@@ -18,6 +18,7 @@ function App() {
           <Route exact path="/registercompany" component={Cadastrocompany} />
           <Route exact path="/registeruser" component={Cadastrouser} />
           <Route exact path="/profileuser" component={Profileuser} />
+          <Route path="/profileuser/:id" component={Profileuser} />
         </Switch>
       </HashRouter>
     </div>

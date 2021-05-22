@@ -10,6 +10,45 @@ const { connect } = require('./app.js');
 
 let connection;
 
+async function getuser(req, res) {
+    try {
+        const id = req.query.id;
+
+        const query = `SELECT UPNOME, UPCPF, NAMEUF, UPANOFORMACAO, UPINSTITUICAO, UPCURSO, UPBIO  FROM TB_USERPESSOA U INNER JOIN TA_UF UF ON UPIDUF = UF.ID WHERE UPID = '${id}'`
+
+        connection = await new sql.ConnectionPool(config.db_settings).connect();
+
+        const result = await connection.request().query(query);
+
+        if (result.rowsAffected.length === 0) {
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({
+                "err": "Houve um erro ao buscar os dados do seu perfil!"
+            }));
+            return;
+        }
+
+        let info = {
+            "cpf": result.recordset[0].UPCPF,
+            "nome": result.recordset[0].UPNOME,
+            "uf": result.recordset[0].NAMEUF,
+            "anoformacao": result.recordset[0].UPANOFORMACAO,
+            "curso": result.recordset[0].UPCURSO,
+            "instituicao": result.recordset[0].UPINSTITUICAO
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(info));
+    }
+    catch (err) {
+        console.log(err);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            "err": err
+        }));
+    }
+}
+
 async function usercreate(req, res) {
     try {
         const bodyData = req.body;
@@ -63,7 +102,8 @@ async function login(req, res) {
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
-            "msg": "Login ok."
+            "id": loginResult.recordset[0].UPID
+            //"cpf": result.recordset[0].UPCPF,
         }));
     }
     catch (err) {
@@ -77,5 +117,6 @@ async function login(req, res) {
 
 module.exports = {
     usercreate: usercreate,
-    login: login
+    login: login,
+    getuser: getuser
 }
