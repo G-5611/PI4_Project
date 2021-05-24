@@ -34,7 +34,8 @@ async function getuser(req, res) {
             "uf": result.recordset[0].NAMEUF,
             "anoformacao": result.recordset[0].UPANOFORMACAO,
             "curso": result.recordset[0].UPCURSO,
-            "instituicao": result.recordset[0].UPINSTITUICAO
+            "instituicao": result.recordset[0].UPINSTITUICAO,
+            "bio": result.recordset[0].UPBIO
         }
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -49,6 +50,47 @@ async function getuser(req, res) {
     }
 }
 
+async function getcompany(req, res) {
+    try {
+        const id = req.query.id;
+
+        const query = `SELECT UENOMEFANTASIA, UECNPJ, NAMEUF, UEEMAIL, UETELEFONE, UEBIO FROM TB_USEREMPRESA E INNER JOIN TA_UF UF ON E.UEIDUF = UF.ID WHERE UEID = '${id}'`
+
+        connection = await new sql.ConnectionPool(config.db_settings).connect();
+
+
+        const result = await connection.request().query(query);
+
+        if (result.rowsAffected.length === 0) {
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({
+                "err": "Houve um erro ao buscar os dados do seu perfil!"
+            }));
+            return;
+        }
+
+        let info = {
+            "nomefantasia": result.recordset[0].UENOMEFANTASIA,
+            "cnpj": result.recordset[0].UECNPJ,
+            "uf": result.recordset[0].NAMEUF,
+            "email": result.recordset[0].UEEMAIL,
+            "telefone": result.recordset[0].UETELEFONE,
+            "bio": result.recordset[0].UEBIO
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(info));
+    }
+
+    catch (err) {
+        console.log(err);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            "err": err
+        }));
+    }
+
+}
 async function usercreate(req, res) {
     try {
         const bodyData = req.body;
@@ -183,6 +225,7 @@ module.exports = {
     usercreatecompany: usercreatecompany,
     login: login,
     getuser: getuser,
-    logincompany: logincompany
+    logincompany: logincompany,
+    getcompany: getcompany
 
 }

@@ -49,6 +49,10 @@ export const Login = (props) => {
 
         <br />
 
+        <Link className="btn btn-link" to="/">Esqueci minha senha</Link>
+
+        <br />
+
         <Link className="btn btn-link" to="/">Voltar</Link>
 
         {Erro && <div className="alert alert-danger">{Erro}</div>}
