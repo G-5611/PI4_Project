@@ -6,6 +6,7 @@ import { StartPage } from './Screens/StartPage';
 import { Cadastrocompany } from './Screens/Cadastrocompany';
 import { Cadastrouser } from './Screens/Cadastrouser';
 import { Profileuser } from './Screens/Profileuser';
+import { Profilecompany } from './Screens/PorfileCompany';
 
 function App() {
   return (
@@ -18,6 +19,10 @@ function App() {
           <Route exact path="/registercompany" component={Cadastrocompany} />
           <Route exact path="/registeruser" component={Cadastrouser} />
           <Route exact path="/profileuser" component={Profileuser} />
+          <Route path="/profileuser/:id" component={Profileuser} />
+          <Route exact path="/profilecompany" component={Profilecompany} />
+          <Route path="/profilecompany/:id" component={Profilecompany} />
+
         </Switch>
       </HashRouter>
     </div>

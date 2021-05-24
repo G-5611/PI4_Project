@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 import { Navbar } from "./../../Componentes/Navbar"
 
 import axios from "axios";
-
-import moment from "moment";
 
 import env from "./../../env.json"
 
 import "./index.css"
 
 
-export const Profileuser = ({
+export const Profilecompany = ({
   ...defaultprops
 }) => {
-  const [Nome, setNome] = useState("");
   const [UF, setUF] = useState("")
-  const [Instituicao, setInstituicao] = useState("")
-  const [Curso, setCurso] = useState("")
-  const [Anoformacao, setAnoformacao] = useState("")
+  const [NomeFantasia, setNomeFantasia] = useState("")
+  const [Telefone, setTelefone] = useState("")
+  const [Email, setEmail] = useState("")
+  const [Cnpj, setCnpj] = useState("")
   const [Biografia, setBiografia] = useState("")
   const [UserID, setUserId] = useState(0)
 
@@ -30,14 +27,14 @@ export const Profileuser = ({
   useEffect(async () => {
     console.log(UserID)
     if (UserID > 0) {
-      const res = (await axios.get(env.apiUrl + `user/profile?id=${UserID}`)).data;
+      const res = (await axios.get(env.apiUrl + `user/profilecompany?id=${UserID}`)).data;
       console.log(res)
 
-      setNome(res.nome)
+      setNomeFantasia(res.nomefantasia)
       setUF(res.uf)
-      setCurso(res.curso)
-      setAnoformacao(moment(res.anoformacao, "YYYY-MM-DD").format("DD/MM/YYYY"))
-      setInstituicao(res.instituicao)
+      setTelefone(res.telefone)
+      setEmail(res.email)
+      setCnpj(res.cnpj)
       setBiografia(res.bio)
     }
   }, [UserID])
@@ -48,14 +45,21 @@ export const Profileuser = ({
 
       <div className="panel-profile">
 
-        <h3>Perfil do Usuário</h3>
+        <h3>Perfil da Empresa</h3>
 
         <img className="profile-pic" src="./assets/Blank-profile.png" />
 
         <div className="form-group row">
-          <label className="col-sm-4 col-form-label text-left"><b>Nome Completo:</b></label>
+          <label className="col-sm-4 col-form-label text-left"><b>Empresa:</b></label>
           <div className="col-sm-7">
-            <div className="form-control-plaintext text-left">{Nome}</div>
+            <div className="form-control-plaintext text-left">{NomeFantasia}</div>
+          </div>
+        </div>
+
+        <div className="form-group row">
+          <label className="col-sm-4 col-form-label text-left"><b>CNPJ:</b></label>
+          <div className="col-sm-7">
+            <div className="form-control-plaintext text-left">{Cnpj}</div>
           </div>
         </div>
 
@@ -65,33 +69,29 @@ export const Profileuser = ({
             <div className="form-control-plaintext text-left">{UF}</div>
           </div>
         </div>
+
         <div className="form-group row">
-          <label className="col-sm-4 col-form-label text-left"><b>Instituição:</b></label>
+          <label className="col-sm-4 col-form-label text-left"><b>Telefone:</b></label>
           <div className="col-sm-7">
-            <div className="form-control-plaintext text-left">{Instituicao}</div>
+            <div className="form-control-plaintext text-left">{Telefone}</div>
           </div>
         </div>
+
         <div className="form-group row">
-          <label className="col-sm-4 col-form-label text-left"><b>Ano da Formação:</b></label>
+          <label className="col-sm-4 col-form-label text-left"><b>Email:</b></label>
           <div className="col-sm-7">
-            <div className="form-control-plaintext text-left">{Anoformacao}</div>
+            <div className="form-control-plaintext text-left">{Email}</div>
           </div>
         </div>
-        <div className="form-group row">
-          <label className="col-sm-4 col-form-label text-left"><b>Curso:</b></label>
-          <div className="col-sm-7">
-            <div className="form-control-plaintext text-left">{Curso}</div>
-          </div>
-        </div>
+
         <div className="biografia text-left">
           <label className="col-sm-4 col-form-label text-left"> <b>Biografia:</b> </label>
           <br />
           <label>{Biografia}</label>
         </div>
 
-
-
       </div>
+
     </div>
   )
 }

@@ -17,7 +17,7 @@
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
     "express": "^4.16.4",
-    "mssql": "^4.3.0"
+    "mssql": "^4.3.9"
   },
   "devDependencies": {},
   "engines": {
