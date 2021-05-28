@@ -24,6 +24,36 @@ export const Cadastrouser = () => {
   const [Telefone, setTelefone] = useState('')
   const [Cidade, setCidade] = useState('')
 
+  function onEmailChange(e) {
+    setTextoAlerta("");
+    e.target.className = "form-control";
+
+    const email = e.target.value;
+
+    const regex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim;
+
+    if (!regex.test(email)) {
+      setTextoAlerta("Email inválido!");
+      e.target.className = "form-control invalid-input";
+    }
+
+    setEmail(email);
+  }
+
+  function onConfirmpasswordChange(e) {
+    setTextoAlerta("");
+    e.target.className = "form-control";
+
+    const confirmpassword = e.target.value;
+
+    if (confirmpassword !== Password) {
+      setTextoAlerta("As senhas não coincidem!");
+      e.target.className = "form-control invalid-input";
+    }
+
+    setConfirmpassword(confirmpassword);
+  }
+
   async function doCadastro(e) {
     e.preventDefault();
     setTextoAlerta("");
@@ -121,7 +151,7 @@ export const Cadastrouser = () => {
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="email" placeholder="Email" value={Email} onChange={(e) => setEmail(e.target.value)} />
+          <input className="form-control" id="email" placeholder="Email" value={Email} onChange={onEmailChange} />
         </div>
 
 
@@ -173,14 +203,12 @@ export const Cadastrouser = () => {
           <input className="form-control" id="ano-formacao" type={"date"} placeholder="Ano da Formação" value={Anoforma} onChange={(e) => SetAnoforma(e.target.value)} />
         </div>
 
-
-
         <div className="form-group">
           <input className="form-control" id="senha" type={"password"} placeholder="Senha" value={Password} onChange={(e) => setPassword(e.target.value)} />
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="senha" type={"password"} placeholder="Confirmar Senha" value={Confirmpassword} onChange={(e) => setConfirmpassword(e.target.value)} />
+          <input className="form-control" id="senha" type={"password"} placeholder="Confirmar Senha" value={Confirmpassword} onChange={onConfirmpasswordChange} />
         </div>
 
         <button className="btn btn-primary" type="submit" onClick={doCadastro}>

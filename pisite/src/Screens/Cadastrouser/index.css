@@ -4,3 +4,9 @@
   margin: 0 auto;
   width: 500px;
 }
+
+.invalid-input,
+.invalid-input:focus{
+  border-color: #bd2130;
+  box-shadow: 0 0 0 0.2rem rgb(255 0 59 / 25%);
+}
