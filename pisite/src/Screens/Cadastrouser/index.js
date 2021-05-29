@@ -40,6 +40,45 @@ export const Cadastrouser = () => {
     setEmail(email);
   }
 
+  function onCpfChange(e) {
+    setTextoAlerta("");
+    e.target.className = "form-control"
+
+    const cpfdigitado = e.target.value;
+
+    if (!TestaCPF(cpfdigitado)) {
+      setTextoAlerta("CPF Invalido")
+      e.target.className = "form-control invalid-input"
+    }
+
+    setCpf(cpfdigitado)
+  }
+
+  function TestaCPF(strCPF) {
+    var Soma;
+    var Resto;
+    Soma = 0;
+    if (strCPF == "00000000000") return false;
+
+    if (strCPF.length < 11 || strCPF > 11) return false
+
+    let i;
+
+    for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11)) Resto = 0;
+    if (Resto != parseInt(strCPF.substring(9, 10))) return false;
+
+    Soma = 0;
+    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11)) Resto = 0;
+    if (Resto != parseInt(strCPF.substring(10, 11))) return false;
+    return true;
+  }
+
   function onConfirmpasswordChange(e) {
     setTextoAlerta("");
     e.target.className = "form-control";
@@ -143,7 +182,7 @@ export const Cadastrouser = () => {
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="cpf-input" placeholder="CPF" value={Cpf} onChange={(e) => setCpf(e.target.value)} />
+          <input className="form-control" id="cpf-input" placeholder="CPF" value={Cpf} onChange={onCpfChange} />
         </div>
 
         <div className="form-group">
