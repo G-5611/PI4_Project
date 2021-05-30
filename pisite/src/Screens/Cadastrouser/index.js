@@ -4,6 +4,7 @@ import moment from "moment";
 import "./index.css"
 import { Link } from "react-router-dom"
 import env from "./../../env.json"
+import { validate } from 'gerador-validador-cpf'
 
 export const Cadastrouser = () => {
   const [TipoAlertText, setTipoAlertText] = useState("danger")
@@ -23,6 +24,77 @@ export const Cadastrouser = () => {
   const [Email, setEmail] = useState('')
   const [Telefone, setTelefone] = useState('')
   const [Cidade, setCidade] = useState('')
+
+  function onEmailChange(e) {
+    setTextoAlerta("");
+    e.target.className = "form-control";
+
+    const email = e.target.value;
+
+    const regex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim;
+
+    if (!regex.test(email)) {
+      setTextoAlerta("Email inválido!");
+      e.target.className = "form-control invalid-input";
+    }
+
+    setEmail(email);
+  }
+
+  function onCpfChange(e) {
+    setTextoAlerta("");
+    e.target.className = "form-control"
+
+    const cpfdigitado = e.target.value;
+
+    if (!validate(cpfdigitado)) {
+      setTextoAlerta("CPF Invalido")
+      e.target.className = "form-control invalid-input"
+    }
+
+    setCpf(cpfdigitado)
+  }
+
+  function TestaCPF(strCPF) {
+    /*
+    var Soma;
+    var Resto;
+    Soma = 0;
+    if (strCPF == "00000000000") return false;
+
+    if (strCPF.length < 11 || strCPF > 11) return false
+
+    let i;
+
+    for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11)) Resto = 0;
+    if (Resto != parseInt(strCPF.substring(9, 10))) return false;
+
+    Soma = 0;
+    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11)) Resto = 0;
+    if (Resto != parseInt(strCPF.substring(10, 11))) return false; */
+
+    return true;
+  }
+
+  function onConfirmpasswordChange(e) {
+    setTextoAlerta("");
+    e.target.className = "form-control";
+
+    const confirmpassword = e.target.value;
+
+    if (confirmpassword !== Password) {
+      setTextoAlerta("As senhas não coincidem!");
+      e.target.className = "form-control invalid-input";
+    }
+
+    setConfirmpassword(confirmpassword);
+  }
 
   async function doCadastro(e) {
     e.preventDefault();
@@ -113,7 +185,7 @@ export const Cadastrouser = () => {
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="cpf-input" placeholder="CPF" value={Cpf} onChange={(e) => setCpf(e.target.value)} />
+          <input className="form-control" id="cpf-input" placeholder="CPF" value={Cpf} onChange={onCpfChange} />
         </div>
 
         <div className="form-group">
@@ -121,7 +193,7 @@ export const Cadastrouser = () => {
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="email" placeholder="Email" value={Email} onChange={(e) => setEmail(e.target.value)} />
+          <input className="form-control" id="email" placeholder="Email" value={Email} onChange={onEmailChange} />
         </div>
 
 
@@ -173,14 +245,12 @@ export const Cadastrouser = () => {
           <input className="form-control" id="ano-formacao" type={"date"} placeholder="Ano da Formação" value={Anoforma} onChange={(e) => SetAnoforma(e.target.value)} />
         </div>
 
-
-
         <div className="form-group">
           <input className="form-control" id="senha" type={"password"} placeholder="Senha" value={Password} onChange={(e) => setPassword(e.target.value)} />
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="senha" type={"password"} placeholder="Confirmar Senha" value={Confirmpassword} onChange={(e) => setConfirmpassword(e.target.value)} />
+          <input className="form-control" id="senha" type={"password"} placeholder="Confirmar Senha" value={Confirmpassword} onChange={onConfirmpasswordChange} />
         </div>
 
         <button className="btn btn-primary" type="submit" onClick={doCadastro}>
