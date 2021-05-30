@@ -4,6 +4,7 @@ import moment from "moment";
 import "./index.css"
 import { Link } from "react-router-dom"
 import env from "./../../env.json"
+import { validate } from 'gerador-validador-cpf'
 
 export const Cadastrouser = () => {
   const [TipoAlertText, setTipoAlertText] = useState("danger")
@@ -46,7 +47,7 @@ export const Cadastrouser = () => {
 
     const cpfdigitado = e.target.value;
 
-    if (!TestaCPF(cpfdigitado)) {
+    if (!validate(cpfdigitado)) {
       setTextoAlerta("CPF Invalido")
       e.target.className = "form-control invalid-input"
     }
@@ -55,6 +56,7 @@ export const Cadastrouser = () => {
   }
 
   function TestaCPF(strCPF) {
+    /*
     var Soma;
     var Resto;
     Soma = 0;
@@ -75,7 +77,8 @@ export const Cadastrouser = () => {
     Resto = (Soma * 10) % 11;
 
     if ((Resto == 10) || (Resto == 11)) Resto = 0;
-    if (Resto != parseInt(strCPF.substring(10, 11))) return false;
+    if (Resto != parseInt(strCPF.substring(10, 11))) return false; */
+
     return true;
   }
 
