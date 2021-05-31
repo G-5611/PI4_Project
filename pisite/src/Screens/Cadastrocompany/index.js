@@ -30,6 +30,78 @@ export const Cadastrocompany = () => {
     setTipoAlertText("danger");
 
     try {
+
+      if (NomeFantasia === "") {
+        setTextoAlerta('Campo "Nome Fantasia" obrigatorio')
+        return
+      }
+
+      if (RazaoSocial === "") {
+        setTextoAlerta('Campo "Razão Social" obrigatorio')
+        return
+      }
+
+      if (Cnpj === "") {
+        setTextoAlerta('Campo "CNPJ" obrigatorio')
+        return
+      }
+
+      if (Cep === "") {
+        setTextoAlerta('Campo "CEP" obrigatorio')
+        return
+      }
+
+      if (Endereco === "") {
+        setTextoAlerta('Campo "Endereco" obrigatorio')
+        return
+      }
+
+      if (Uf === "") {
+        setTextoAlerta('Campo "UF" obrigatorio')
+        return
+      }
+
+      if (Email === "") {
+        setTextoAlerta('Campo "Email" obrigatorio')
+        return
+      }
+
+      if (Telefone === "") {
+        setTextoAlerta('Campo "Telefone" obrigatorio')
+        return
+      }
+
+      if (Nomecontato === "") {
+        setTextoAlerta('Campo "Nome do Contato" obrigatorio')
+        return
+      }
+
+      if (Cpfcontato === "") {
+        setTextoAlerta('Campo "CPF do Contato" obrigatorio')
+        return
+      }
+
+      if (Telefonecontato === "") {
+        setTextoAlerta('Campo "Telefone do Contato" obrigatorio')
+        return
+      }
+
+      if (Emailcontato === "") {
+        setTextoAlerta('Campo "Email do Contato" obrigatorio')
+        return
+      }
+
+      if (Senha === "") {
+        setTextoAlerta('Campo "Senha" obrigatorio')
+        return
+      }
+
+      if (Senha !== Confirmpassword) {
+        setTextoAlerta('Senhas não coincidem')
+        return
+      }
+
+
       const body = {
         nomefantasia: NomeFantasia,
         razaosocial: RazaoSocial,
@@ -105,7 +177,7 @@ export const Cadastrocompany = () => {
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="email" placeholder="E-mail" value={Email} onChange={(e) => setEmail(e.target.value)} />
+          <input className="form-control" id="email" placeholder="E-mail" value={Email} onChange={onEmailChange} />
         </div>
 
         <div className="form-group">

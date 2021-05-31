@@ -7,23 +7,23 @@ import env from "./../../env.json"
 import { validate } from 'gerador-validador-cpf'
 
 export const Cadastrouser = () => {
-  const [TipoAlertText, setTipoAlertText] = useState("danger")
+  const [TipoAlertText, setTipoAlertText] = useState("danger");
   const [TextoAlerta, setTextoAlerta] = useState("");
   const [Nome, setNome] = useState("");
   const [Cpf, setCpf] = useState("");
   const [DataNascimento, setDataNascimento] = useState("");
   const [CEP, setCEP] = useState("");
-  const [Endereco, setEndereco] = useState("");
-  const [UF, setUF] = useState("")
-  const [Instituicao, SetInstituicao] = useState("")
-  const [Anoforma, SetAnoforma] = useState("")
-  const [Curso, setCurso] = useState("")
-  const [Password, setPassword] = useState("")
-  const [Confirmpassword, setConfirmpassword] = useState("")
-  const [Complemento, setComplemento] = useState('')
-  const [Email, setEmail] = useState('')
-  const [Telefone, setTelefone] = useState('')
-  const [Cidade, setCidade] = useState('')
+  const [Endereco, setEndereco] = useState("");;
+  const [UF, setUF] = useState("");
+  const [Instituicao, SetInstituicao] = useState("");
+  const [Anoforma, SetAnoforma] = useState("");
+  const [Curso, setCurso] = useState("");
+  const [Password, setPassword] = useState("");
+  const [Confirmpassword, setConfirmpassword] = useState("");
+  const [Complemento, setComplemento] = useState('');
+  const [Email, setEmail] = useState('');
+  const [Telefone, setTelefone] = useState('');
+  const [Cidade, setCidade] = useState('');
 
   function onEmailChange(e) {
     setTextoAlerta("");
@@ -53,33 +53,6 @@ export const Cadastrouser = () => {
     }
 
     setCpf(cpfdigitado)
-  }
-
-  function TestaCPF(strCPF) {
-    /*
-    var Soma;
-    var Resto;
-    Soma = 0;
-    if (strCPF == "00000000000") return false;
-
-    if (strCPF.length < 11 || strCPF > 11) return false
-
-    let i;
-
-    for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
-    Resto = (Soma * 10) % 11;
-
-    if ((Resto == 10) || (Resto == 11)) Resto = 0;
-    if (Resto != parseInt(strCPF.substring(9, 10))) return false;
-
-    Soma = 0;
-    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-    Resto = (Soma * 10) % 11;
-
-    if ((Resto == 10) || (Resto == 11)) Resto = 0;
-    if (Resto != parseInt(strCPF.substring(10, 11))) return false; */
-
-    return true;
   }
 
   function onConfirmpasswordChange(e) {
@@ -119,10 +92,12 @@ export const Cadastrouser = () => {
 
       if (Email === "") {
         setTextoAlerta('Campo "Email" obrigatório.');
+        return;
       }
 
       if (Telefone === "") {
         setTextoAlerta('Campo "Telefone" obrigatório.')
+        return;
       }
 
       if (CEP === "") {
@@ -132,6 +107,10 @@ export const Cadastrouser = () => {
 
       if (UF === "") {
         setTextoAlerta('Campo "UF" obrigatório.')
+        return;
+      }
+      if (Password === "") {
+        setTextoAlerta('Campo "Senha" obrigatorio.')
         return;
       }
 

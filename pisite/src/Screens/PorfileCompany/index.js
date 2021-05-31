@@ -11,13 +11,14 @@ import "./index.css"
 export const Profilecompany = ({
   ...defaultprops
 }) => {
-  const [UF, setUF] = useState("")
-  const [NomeFantasia, setNomeFantasia] = useState("")
-  const [Telefone, setTelefone] = useState("")
-  const [Email, setEmail] = useState("")
-  const [Cnpj, setCnpj] = useState("")
-  const [Biografia, setBiografia] = useState("")
-  const [UserID, setUserId] = useState(0)
+
+  const [UF, setUF] = useState("");
+  const [NomeFantasia, setNomeFantasia] = useState("");
+  const [Telefone, setTelefone] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Cnpj, setCnpj] = useState("");
+  const [Biografia, setBiografia] = useState("");
+  const [UserID, setUserId] = useState(0);
 
   useEffect(() => {
     console.log(defaultprops.match.params.id)
