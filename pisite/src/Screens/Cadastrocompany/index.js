@@ -1,8 +1,9 @@
 import "./index.css"
-import { Link, Route } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useState } from "react";
 import axios from "axios";
 import env from "./../../env.json"
+import { validate } from 'gerador-validador-cpf'
 
 
 export const Cadastrocompany = () => {
@@ -24,6 +25,67 @@ export const Cadastrocompany = () => {
   const [Senha, setSenha] = useState("");
   const [Confirmsenha, setConfirmsenha] = useState("")
 
+  function onEmailChange(e) {
+    setTextoAlerta("");
+    e.target.className = "form-control";
+
+    const email = e.target.value;
+
+    const regex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim;
+
+    if (!regex.test(email)) {
+      setTextoAlerta("Email inválido!");
+      e.target.className = "form-control invalid-input";
+    }
+
+    setEmail(email);
+  }
+
+  function onCpfContatoChange(e) {
+    setTextoAlerta("");
+    e.target.className = "form-control"
+
+    const cpfdigitado = e.target.value;
+
+    if (!validate(cpfdigitado)) {
+      setTextoAlerta("CPF Invalido")
+      e.target.className = "form-control invalid-input"
+    }
+
+    setCpfcontato(cpfdigitado)
+  }
+
+  function onEmailContatoChange(e) {
+    setTextoAlerta("");
+    e.target.className = "form-control";
+
+    const email = e.target.value;
+
+    const regex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim;
+
+    if (!regex.test(email)) {
+      setTextoAlerta("Email inválido!");
+      e.target.className = "form-control invalid-input";
+    }
+
+    setEmailcontato(email);
+  }
+
+  function onConfirmpasswordChange(e) {
+    setTextoAlerta("");
+    e.target.className = "form-control";
+
+    const Confirmsenha = e.target.value;
+
+    if (Confirmsenha !== Senha) {
+      setTextoAlerta("As senhas não coincidem!");
+      e.target.className = "form-control invalid-input";
+    }
+
+    setConfirmsenha(Confirmsenha);
+  }
+
+
   async function doCadastroCompany(e) {
     e.preventDefault();
     setTextoAlerta("");
@@ -36,13 +98,13 @@ export const Cadastrocompany = () => {
         return
       }
 
-      if (RazaoSocial === "") {
-        setTextoAlerta('Campo "Razão Social" obrigatorio')
+      if (Cnpj === "") {
+        setTextoAlerta('Campo "CNPJ" obrigatorio')
         return
       }
 
-      if (Cnpj === "") {
-        setTextoAlerta('Campo "CNPJ" obrigatorio')
+      if (RazaoSocial === "") {
+        setTextoAlerta('Campo "Razão Social" obrigatorio')
         return
       }
 
@@ -61,13 +123,13 @@ export const Cadastrocompany = () => {
         return
       }
 
-      if (Email === "") {
-        setTextoAlerta('Campo "Email" obrigatorio')
+      if (Telefone === "") {
+        setTextoAlerta('Campo "Telefone" obrigatorio')
         return
       }
 
-      if (Telefone === "") {
-        setTextoAlerta('Campo "Telefone" obrigatorio')
+      if (Email === "") {
+        setTextoAlerta('Campo "Email" obrigatorio')
         return
       }
 
@@ -95,12 +157,6 @@ export const Cadastrocompany = () => {
         setTextoAlerta('Campo "Senha" obrigatorio')
         return
       }
-
-      if (Senha !== Confirmsenha) {
-        setTextoAlerta('Senhas não coincidem')
-        return
-      }
-
 
       const body = {
         nomefantasia: NomeFantasia,
@@ -185,7 +241,7 @@ export const Cadastrocompany = () => {
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="cpf-contato" placeholder="CPF do contato" value={Cpfcontato} onChange={(e) => setCpfcontato(e.target.value)} />
+          <input className="form-control" id="cpf-contato" placeholder="CPF do contato" value={Cpfcontato} onChange={onCpfContatoChange} />
         </div>
 
         <div className="form-group">
@@ -193,7 +249,7 @@ export const Cadastrocompany = () => {
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="email-contato" placeholder="Email do contato" value={Emailcontato} onChange={(e) => setEmailcontato(e.target.value)} />
+          <input className="form-control" id="email-contato" placeholder="Email do contato" value={Emailcontato} onChange={onEmailContatoChange} />
         </div>
 
         <div className="form-group">
@@ -201,7 +257,7 @@ export const Cadastrocompany = () => {
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="confirmar-senha" placeholder="Confirmar Senha" type={"password"} value={Confirmsenha} onChange={(e) => setConfirmsenha(e.target.value)} />
+          <input className="form-control" id="confirmar-senha" placeholder="Confirmar Senha" type={"password"} value={Confirmsenha} onChange={onConfirmpasswordChange} />
         </div>
 
         <button className="btn btn-primary" type="submit" onClick={doCadastroCompany}>
