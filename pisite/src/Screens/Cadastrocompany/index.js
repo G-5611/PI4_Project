@@ -96,7 +96,7 @@ export const Cadastrocompany = () => {
         return
       }
 
-      if (Senha !== Confirmpassword) {
+      if (Senha !== Confirmsenha) {
         setTextoAlerta('Senhas não coincidem')
         return
       }
