@@ -11,7 +11,7 @@ export const Navbar = () => {
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
+          <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
@@ -23,6 +23,11 @@ export const Navbar = () => {
                 <Link className="nav-link" to="/">Vagas</Link>
               </li>
             </ul>
+            <form className="form-inline my-2 my-lg-0">
+              <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+              <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              <button>aaa</button>
+            </form>
           </div>
         </div>
 
