@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react"
-import { Navbar } from "./../../Componentes/Navbar"
+import React, { useEffect, useState } from "react";
+import { Navbar } from "./../../Componentes/Navbar";
+import { Link } from "react-router-dom";
 
 import axios from "axios";
 
-import env from "./../../env.json"
+import env from "./../../env.json";
 
-import "./index.css"
+import "./index.css";
 
 
 export const Profilecompany = ({
@@ -89,6 +90,9 @@ export const Profilecompany = ({
           <label className="col-sm-4 col-form-label text-left"> <b>Biografia:</b> </label>
           <br />
           <label>{Biografia}</label>
+        </div>
+        <div>
+        <Link className="btn btn-primary" to="/">Criar Vaga</Link>
         </div>
 
       </div>
