@@ -92,7 +92,7 @@ export const Profilecompany = ({
           <label>{Biografia}</label>
         </div>
         <div>
-        <Link className="btn btn-primary" to="/">Criar Vaga</Link>
+          <Link className="btn btn-primary" to={"/criarvaga/" + UserID}>Criar Vaga</Link>
         </div>
 
       </div>

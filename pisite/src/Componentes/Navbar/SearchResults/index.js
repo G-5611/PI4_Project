@@ -4,7 +4,9 @@ const SearchResults = ({
   results,
   width
 }) => {
-
+  if (results.length === 0) {
+    return null
+  }
   return (
     <div id={"search-results"} className={"d-flex justify-content-end w-100"} style={{ "padding": "8px 31px", "position": "absolute" }}>
       <ul className={"list-group"} style={{ "border": "1px solid #000", "maxWidth": width }}>

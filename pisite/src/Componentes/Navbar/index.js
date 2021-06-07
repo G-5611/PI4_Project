@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from "react";
 import "./index.css"
 import { Link } from "react-router-dom";
 import SearchResults from "./SearchResults";
+import axios from "axios";
+import env from "./../../env.json"
 
 export const Navbar = () => {
   const ref = useRef(null);
@@ -30,24 +32,29 @@ export const Navbar = () => {
     }
   ];
 
+  const [SearchRes, setSearchRes] = useState([]);
   const [Search, setSearch] = useState("");
+  const [FiltrarResults, setFiltrarResults] = useState([]);
   const [RefWidth, setRefWidth] = useState(0);
+
+  useEffect(async () => {
+    const res = await axios.get(env.apiUrl + "search");
+    setSearchRes(res.data);
+  }, [])
 
   useEffect(() => {
     setRefWidth(ref.current.clientWidth)
   }, [ref])
 
-  function FoundResult() {
-    const found1 = mockSearchResults.some(x => x.vaga.includes(Search));
-    const found2 = mockSearchResults.some(x => x.empresa.includes(Search));
-
-    return (found1 || found2);
-  }
-
-  function filtrarResults() {
-    const results = mockSearchResults.filter(x => x.vaga.includes(Search) || x.empresa.includes(Search));
-    return results;
-  }
+  useEffect(() => {
+    if (Search !== "" && Search.length > 2) {
+      const results = SearchRes.filter(x => x.vaga.includes(Search) || x.empresa.includes(Search));
+      setFiltrarResults(results);
+    }
+    else {
+      setFiltrarResults([]);
+    }
+  }, [Search])
 
   return (
     <div className="busca-painel">
@@ -78,9 +85,8 @@ export const Navbar = () => {
           </div>
         </div>
       </nav>
-      {Search !== "" && Search.length > 2 && FoundResult() &&
-        <SearchResults results={filtrarResults()} width={RefWidth} />
-      }
+
+      <SearchResults results={FiltrarResults} width={RefWidth} />
     </div>
   )
 }
