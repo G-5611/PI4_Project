@@ -36,10 +36,13 @@ app.use(bodyParser.json());
 // Endpoint to be called from the client side
 app.post("/login", (req, res) => api.login(req, res));
 app.post("/user/create", (req, res) => api.usercreate(req, res));
-app.post("/user/createcompany", (req, res) => api.usercreatecompany(req, res))
-app.get("/user/profile", (req, res) => api.getuser(req, res))
-app.get("/user/profilecompany", (req, res) => api.getcompany(req, res))
+app.post("/user/createcompany", (req, res) => api.usercreatecompany(req, res));
+app.get("/user/profile", (req, res) => api.getuser(req, res));
+app.get("/user/profilecompany", (req, res) => api.getcompany(req, res));
+app.post("/user/profile/password", (req, res) => api.changePasswordUser(req, res));
+app.post("/user/profile/password/company", (req, res) => api.changePasswordCompany(req, res));
 app.post("/logincompany", (req, res) => api.logincompany(req, res));
+app.get("/vacancy", (req, res) => api.getVacancy(req, res));
 app.post("/vacancy/create", (req, res) => api.vacancyCreate(req, res));
 app.get("/search", (req, res) => api.search(req, res));
 

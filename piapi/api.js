@@ -12,7 +12,7 @@ let connection;
 
 async function search(req, res) {
   try {
-    const query = "SELECT UENOMEFANTASIA AS 'empresa', NAMEVAGA AS 'vaga' FROM TB_USEREMPRESA E INNER JOIN TA_VAGA V ON E.UEID = V.FK_EMPRESA;";
+    const query = "SELECT UENOMEFANTASIA AS 'empresa', NAMEVAGA AS 'vaga', ID AS 'id' FROM TB_USEREMPRESA E INNER JOIN TA_VAGA V ON E.UEID = V.FK_EMPRESA;";
 
     connection = await new sql.ConnectionPool(config.db_settings).connect();
 
@@ -23,7 +23,8 @@ async function search(req, res) {
     for (let i = 0; i < result.recordset.length; i++) {
       info[i] = {
         vaga: result.recordset[i].vaga,
-        empresa: result.recordset[i].empresa
+        empresa: result.recordset[i].empresa,
+        id: result.recordset[i].id
       };
     }
 
@@ -70,17 +71,124 @@ async function vacancyCreate(req, res) {
   }
 }
 
-async function getuser(req, res) {
+async function getVacancy(req, res) {
   try {
     const id = req.query.id;
 
-    const query = `SELECT UPNOME, UPCPF, NAMEUF, UPANOFORMACAO, UPINSTITUICAO, UPCURSO, UPBIO  FROM TB_USERPESSOA U INNER JOIN TA_UF UF ON UPIDUF = UF.ID WHERE UPID = '${id}'`
+    const query = `SELECT NAMEVAGA, DESCVAGA, UENOMEFANTASIA, UEEMAILCONTATO FROM TA_VAGA V INNER JOIN TB_USEREMPRESA E ON V.FK_EMPRESA = E.UEID WHERE ID = '${id}'`
 
     connection = await new sql.ConnectionPool(config.db_settings).connect();
 
     const result = await connection.request().query(query);
 
     if (result.rowsAffected.length === 0) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        "err": "Houve um erro ao buscar os dados da vaga!"
+      }));
+      return;
+    }
+
+    let info = {
+      "name": result.recordset[0].NAMEVAGA,
+      "desc": result.recordset[0].DESCVAGA,
+      "empresa": result.recordset[0].UENOMEFANTASIA,
+      "email": result.recordset[0].UEEMAILCONTATO,
+    }
+
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(info));
+  }
+  catch (err) {
+    console.log(err);
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      "err": err
+    }));
+  }
+}
+
+async function changePasswordUser(req, res) {
+  try {
+    const bodyData = req.body;
+
+    const query = `UPDATE TB_USERPESSOA SET UPSENHA = '${bodyData.senha}' WHERE UPEMAIL = '${bodyData.email}'`;
+
+    connection = await new sql.ConnectionPool(config.db_settings).connect();
+
+    const result = await connection.request().query(query);
+
+    if (result.rowsAffected.length === 0) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        "err": "Houve um erro ao salvar a senha nova!"
+      }));
+      return;
+    }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      "msg": "Senha Salva."
+    }));
+  }
+  catch (err) {
+    console.log(err)
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      "err": err
+    }));
+  }
+}
+
+async function changePasswordCompany(req, res) {
+  try {
+    const bodyData = req.body;
+
+    const query = `UPDATE TB_USEREMPRESA SET UESENHA = '${bodyData.senha}' WHERE UEEMAIL = '${bodyData.email}'`;
+
+    connection = await new sql.ConnectionPool(config.db_settings).connect();
+
+    const result = await connection.request().query(query);
+
+    if (result.rowsAffected.length === 0) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        "err": "Houve um erro ao salvar a senha nova!"
+      }));
+      return;
+    }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      "msg": "Senha Salva."
+    }));
+  }
+  catch (err) {
+    console.log(err)
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      "err": err
+    }));
+  }
+}
+
+async function getuser(req, res) {
+  try {
+    const id = req.query.id;
+
+    let query = "";
+
+    if (id) {
+      query = `SELECT UPNOME, UPCPF, NAMEUF, UPANOFORMACAO, UPINSTITUICAO, UPCURSO, UPBIO  FROM TB_USERPESSOA U INNER JOIN TA_UF UF ON UPIDUF = UF.ID WHERE UPID = '${id}'`;
+    }
+    else {
+      const email = req.query.email;
+      query = `SELECT UPNOME, UPCPF, NAMEUF, UPANOFORMACAO, UPINSTITUICAO, UPCURSO, UPBIO  FROM TB_USERPESSOA U INNER JOIN TA_UF UF ON UPIDUF = UF.ID WHERE UPEMAIL = '${email}'`;
+    }
+
+    connection = await new sql.ConnectionPool(config.db_settings).connect();
+
+    const result = await connection.request().query(query);
+
+    if (result.recordset.length === 0) {
       res.writeHead(404, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({
         "err": "Houve um erro ao buscar os dados do seu perfil!"
@@ -114,14 +222,21 @@ async function getcompany(req, res) {
   try {
     const id = req.query.id;
 
-    const query = `SELECT UENOMEFANTASIA, UECNPJ, NAMEUF, UEEMAIL, UETELEFONE, UEBIO FROM TB_USEREMPRESA E INNER JOIN TA_UF UF ON E.UEIDUF = UF.ID WHERE UEID = '${id}'`
+    let query = "";
+
+    if (id) {
+      query = `SELECT UENOMEFANTASIA, UECNPJ, NAMEUF, UEEMAIL, UETELEFONE, UEBIO FROM TB_USEREMPRESA E INNER JOIN TA_UF UF ON E.UEIDUF = UF.ID WHERE UEID = '${id}'`;
+    }
+    else {
+      const email = req.query.email;
+      query = `SELECT UENOMEFANTASIA, UECNPJ, NAMEUF, UEEMAIL, UETELEFONE, UEBIO FROM TB_USEREMPRESA E INNER JOIN TA_UF UF ON E.UEIDUF = UF.ID WHERE UEEMAIL = '${email}'`;
+    }
 
     connection = await new sql.ConnectionPool(config.db_settings).connect();
 
-
     const result = await connection.request().query(query);
 
-    if (result.rowsAffected.length === 0) {
+    if (result.recordset.length === 0) {
       res.writeHead(404, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({
         "err": "Houve um erro ao buscar os dados do seu perfil!"
@@ -288,5 +403,8 @@ module.exports = {
   logincompany: logincompany,
   getcompany: getcompany,
   vacancyCreate: vacancyCreate,
-  search: search
+  search: search,
+  getVacancy: getVacancy,
+  changePasswordUser: changePasswordUser,
+  changePasswordCompany: changePasswordCompany
 }

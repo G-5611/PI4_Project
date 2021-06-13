@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const SearchResults = ({
   results,
@@ -14,10 +15,17 @@ const SearchResults = ({
         {results.map((x, index) => {
           return (
             <li className={"list-group-item"} key={index}>
-              {x.vaga} - {x.empresa}
+              <Link className={"btn btn-link"} to={`/vacancy/${x.id}`}>
+                {x.vaga} - {x.empresa}
+              </Link>
             </li>
           );
         })}
+        <li className={"list-group-item"}>
+          <Link className={"btn btn-link"} to={`/vacancy/`}>
+            {"Visualizar Todas"}
+          </Link>
+        </li>
       </ul>
     </div>
   );

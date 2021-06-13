@@ -29,8 +29,6 @@ export const LoginCompany = (props) => {
     }
   }
 
-
-
   return (
     <div className="panel-login-empresa">
       <div>
@@ -50,7 +48,7 @@ export const LoginCompany = (props) => {
 
         <button type="submit" className="btn btn-primary" onClick={doLoginCompany}>Login</button>
         <br />
-        <Link className="btn btn-link" to="/">Esqueci minha senha</Link>
+        <Link className="btn btn-link" to="/recuperarsenha">Esqueci minha senha</Link>
         <br />
         <Link className="btn btn-link" to="/">Voltar</Link>
         {Erro && <div className="alert alert-danger">{Erro}</div>}

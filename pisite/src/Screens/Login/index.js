@@ -49,7 +49,7 @@ export const Login = (props) => {
 
         <br />
 
-        <Link className="btn btn-link" to="/">Esqueci minha senha</Link>
+        <Link className="btn btn-link" to="/recuperarsenha">Esqueci minha senha</Link>
 
         <br />
 

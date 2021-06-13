@@ -7,6 +7,7 @@ import { Cadastrocompany } from './Screens/Cadastrocompany';
 import { Cadastrouser } from './Screens/Cadastrouser';
 import { Profileuser } from './Screens/Profileuser';
 import { Profilecompany } from './Screens/PorfileCompany';
+import { Vacancy } from './Screens/Vacancy';
 import { VagaCreate } from './Screens/VagaCreate';
 import { RecuperarSenha } from './Screens/RecoverPassword'
 
@@ -26,6 +27,8 @@ function App() {
           <Route path="/profilecompany/:id" component={Profilecompany} />
           <Route exact path="/criarvaga" component={VagaCreate} />
           <Route path="/criarvaga/:id" component={VagaCreate} />
+          <Route exact path="/vacancy" component={Vacancy} />
+          <Route path="/vacancy/:id" component={Vacancy} />
           <Route exact path="/recuperarsenha" component={RecuperarSenha} />
         </Switch>
       </HashRouter>
