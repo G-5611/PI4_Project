@@ -28,7 +28,7 @@ function App() {
           <Route exact path="/criarvaga" component={VagaCreate} />
           <Route path="/criarvaga/:id" component={VagaCreate} />
           <Route exact path="/vacancy" component={Vacancy} />
-          <Route path="/vacancy/:id" component={Vacancy} />
+          <Route path="/vacancy/:id/:vacancyId" component={Vacancy} />
           <Route exact path="/recuperarsenha" component={RecuperarSenha} />
         </Switch>
       </HashRouter>

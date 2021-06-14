@@ -8,7 +8,6 @@ import env from "./../../env.json";
 
 import "./index.css";
 
-
 export const Profilecompany = ({
   ...defaultprops
 }) => {
@@ -22,12 +21,10 @@ export const Profilecompany = ({
   const [UserID, setUserId] = useState(0);
 
   useEffect(() => {
-    console.log(defaultprops.match.params.id)
     setUserId(defaultprops.match.params.id)
   }, [defaultprops.match])
 
   useEffect(async () => {
-    console.log(UserID)
     if (UserID > 0) {
       const res = (await axios.get(env.apiUrl + `user/profilecompany?id=${UserID}`)).data;
       console.log(res)
@@ -43,7 +40,7 @@ export const Profilecompany = ({
 
   return (
     <div >
-      <Navbar />
+      <Navbar userID={UserID} />
 
       <div className="panel-profile">
 

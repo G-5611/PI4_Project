@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const SearchResults = ({
+  userID,
   results,
   width
 }) => {
@@ -15,14 +16,14 @@ const SearchResults = ({
         {results.map((x, index) => {
           return (
             <li className={"list-group-item"} key={index}>
-              <Link className={"btn btn-link"} to={`/vacancy/${x.id}`}>
+              <Link className={"btn btn-link"} to={`/vacancy/${userID}/${x.id}`}>
                 {x.vaga} - {x.empresa}
               </Link>
             </li>
           );
         })}
         <li className={"list-group-item"}>
-          <Link className={"btn btn-link"} to={`/vacancy/`}>
+          <Link className={"btn btn-link"} to={`/vacancy/${userID}/0`}>
             {"Visualizar Todas"}
           </Link>
         </li>

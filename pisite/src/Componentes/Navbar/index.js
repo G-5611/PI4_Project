@@ -6,7 +6,9 @@ import SearchResults from "./SearchResults";
 import axios from "axios";
 import env from "./../../env.json"
 
-export const Navbar = () => {
+export const Navbar = ({
+  userID
+}) => {
   const ref = useRef(null);
 
   const mockSearchResults = [
@@ -36,6 +38,11 @@ export const Navbar = () => {
   const [Search, setSearch] = useState("");
   const [FiltrarResults, setFiltrarResults] = useState([]);
   const [RefWidth, setRefWidth] = useState(0);
+  const [UserID, setUserID] = useState(0);
+
+  useEffect(() => {
+    setUserID(userID);
+  }, [userID])
 
   useEffect(async () => {
     const res = await axios.get(env.apiUrl + "search");
@@ -70,10 +77,10 @@ export const Navbar = () => {
                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/profileuser">Perfil</Link>
+                <Link className="nav-link" to={`/profileuser/${UserID}`}>Perfil</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/">Vagas</Link>
+                <Link className="nav-link" to={`/vacancy/${UserID}/0`}>Vagas</Link>
               </li>
             </ul>
             <form className="form-inline my-2 my-lg-0" ref={ref}>
@@ -86,7 +93,7 @@ export const Navbar = () => {
         </div>
       </nav>
 
-      <SearchResults results={FiltrarResults} width={RefWidth} />
+      <SearchResults userID={UserID} results={FiltrarResults} width={RefWidth} />
     </div>
   )
 }

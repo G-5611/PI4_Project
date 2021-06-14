@@ -17,9 +17,13 @@ export const Vacancy = ({
   const [Empresa, setEmpresa] = useState("");
   const [ListVacancy, setListVacancy] = useState([]);
   const [ID, setID] = useState(0);
+  const [UserID, setUserId] = useState(0)
 
   useEffect(() => {
-    setID(defaultprops.match.params.id || "")
+    setUserId(defaultprops.match.params.id)
+    setID(defaultprops.match.params.vacancyId || "")
+    console.log(defaultprops.match.params.vacancyId)
+    console.log(typeof defaultprops.match.params.vacancyId)
   }, [defaultprops.match])
 
   useEffect(async () => {
@@ -33,20 +37,17 @@ export const Vacancy = ({
       setListVacancy([]);
     }
 
-    if (ID === "") {
+    if (ID === "0") {
       const res = (await axios.get(env.apiUrl + `search`)).data;
       setListVacancy(res);
     }
-
-    console.log(ID)
-
   }, [ID])
 
   return (
     <div >
-      <Navbar />
+      <Navbar userID={UserID} />
 
-      {ID === "" && ListVacancy.length > 0 && <List list={ListVacancy} />}
+      {(ID === "0") && ListVacancy.length > 0 && <List list={ListVacancy} userID={UserID} />}
 
       {ID > 0 &&
         <Detail

@@ -23,12 +23,10 @@ export const Profileuser = ({
   const [UserID, setUserId] = useState(0)
 
   useEffect(() => {
-    console.log(defaultprops.match.params.id)
     setUserId(defaultprops.match.params.id)
   }, [defaultprops.match])
 
   useEffect(async () => {
-    console.log(UserID)
     if (UserID > 0) {
       const res = (await axios.get(env.apiUrl + `user/profile?id=${UserID}`)).data;
       console.log(res)
@@ -44,7 +42,7 @@ export const Profileuser = ({
 
   return (
     <div >
-      <Navbar />
+      <Navbar userID={UserID} />
 
       <div className="panel-profile">
 

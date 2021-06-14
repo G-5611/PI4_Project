@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export const List = ({
+  userID,
   list
 }) => {
   if (list.length === 0) {
@@ -14,7 +15,7 @@ export const List = ({
         {list.map((x, index) => {
           return (
             <li className={"list-group-item"} key={index}>
-              <Link className={"btn btn-link"} to={`/vacancy/${x.id}`}>
+              <Link className={"btn btn-link"} to={`/vacancy/${userID}/${x.id}`}>
                 {x.vaga} - {x.empresa}
               </Link>
             </li>
