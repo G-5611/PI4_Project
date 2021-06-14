@@ -114,10 +114,7 @@ export const Cadastrouser = () => {
         return;
       }
 
-      if (Password !== Confirmpassword) {
-        setTextoAlerta("Senhas não coincidem")
-        return;
-      }
+
       /*if (!moment(DataNascimento, "DD/MM/YYYY").isValid()) {
         setTextoAlerta('"Data de Nascimento" inválida.');
         return;

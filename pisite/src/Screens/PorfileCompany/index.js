@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react"
-import { Navbar } from "./../../Componentes/Navbar"
+import React, { useEffect, useState } from "react";
+import { Navbar } from "./../../Componentes/Navbar";
+import { Link } from "react-router-dom";
 
 import axios from "axios";
 
-import env from "./../../env.json"
+import env from "./../../env.json";
 
-import "./index.css"
-
+import "./index.css";
 
 export const Profilecompany = ({
   ...defaultprops
@@ -21,12 +21,10 @@ export const Profilecompany = ({
   const [UserID, setUserId] = useState(0);
 
   useEffect(() => {
-    console.log(defaultprops.match.params.id)
     setUserId(defaultprops.match.params.id)
   }, [defaultprops.match])
 
   useEffect(async () => {
-    console.log(UserID)
     if (UserID > 0) {
       const res = (await axios.get(env.apiUrl + `user/profilecompany?id=${UserID}`)).data;
       console.log(res)
@@ -42,7 +40,7 @@ export const Profilecompany = ({
 
   return (
     <div >
-      <Navbar />
+      <Navbar userID={UserID} />
 
       <div className="panel-profile">
 
@@ -89,6 +87,9 @@ export const Profilecompany = ({
           <label className="col-sm-4 col-form-label text-left"> <b>Biografia:</b> </label>
           <br />
           <label>{Biografia}</label>
+        </div>
+        <div>
+          <Link className="btn btn-primary" to={"/criarvaga/" + UserID}>Criar Vaga</Link>
         </div>
 
       </div>
