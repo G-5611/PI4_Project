@@ -11,29 +11,6 @@ export const Navbar = ({
 }) => {
   const ref = useRef(null);
 
-  const mockSearchResults = [
-    {
-      vaga: "programador junior",
-      empresa: "microsoft"
-    },
-    {
-      vaga: "assistente de redes",
-      empresa: "google"
-    },
-    {
-      vaga: "programador web",
-      empresa: "adidas"
-    },
-    {
-      vaga: "assistente de ti",
-      empresa: "discord"
-    },
-    {
-      vaga: "auxiliar de testes",
-      empresa: "bing"
-    }
-  ];
-
   const [SearchRes, setSearchRes] = useState([]);
   const [Search, setSearch] = useState("");
   const [FiltrarResults, setFiltrarResults] = useState([]);

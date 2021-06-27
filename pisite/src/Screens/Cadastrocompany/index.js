@@ -1,9 +1,10 @@
-import "./index.css"
-import { Link } from "react-router-dom"
+import "./index.css";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import env from "./../../env.json"
-import { validate } from 'gerador-validador-cpf'
+import env from "./../../env.json";
+import { validate } from 'gerador-validador-cpf';
+import { cnpjValidation } from "./../../Helper/cnpjvalidate.js";
 
 
 export const Cadastrocompany = () => {
@@ -39,6 +40,83 @@ export const Cadastrocompany = () => {
     }
 
     setEmail(email);
+  }
+
+  function validateCnpj(cnpj) {
+    if (cnpj == '') return false;
+
+    if (cnpj.length != 14) {
+      return false;
+    }
+
+    // Elimina CNPJs invalidos conhecidos
+    if (cnpj == "00000000000000" ||
+      cnpj == "11111111111111" ||
+      cnpj == "22222222222222" ||
+      cnpj == "33333333333333" ||
+      cnpj == "44444444444444" ||
+      cnpj == "55555555555555" ||
+      cnpj == "66666666666666" ||
+      cnpj == "77777777777777" ||
+      cnpj == "88888888888888" ||
+      cnpj == "99999999999999") {
+
+      return false;
+    }
+
+    // Valida DVs
+    let tamanho = cnpj.length - 2
+    let numeros = cnpj.substring(0, tamanho);
+    const digitos = cnpj.substring(tamanho);
+    let soma = 0;
+    let pos = tamanho - 7;
+    for (let i = tamanho; i >= 1; i--) {
+      soma += numeros.charAt(tamanho - i) * pos--;
+      if (pos < 2) {
+        pos = 9;
+      }
+    }
+
+    let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+
+    if (resultado != digitos.charAt(0)) {
+      return false;
+    }
+    tamanho = tamanho + 1;
+    numeros = cnpj.substring(0, tamanho);
+    soma = 0;
+    pos = tamanho - 7;
+
+    for (let i = tamanho; i >= 1; i--) {
+      soma += numeros.charAt(tamanho - i) * pos--;
+      if (pos < 2) {
+        pos = 9;
+      }
+      resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+      if (resultado != digitos.charAt(1)) {
+        return false;
+      }
+
+    }
+
+    return true;
+  }
+
+  function onCnpjChange(e) {
+    setTextoAlerta("");
+    let resultado = false;
+    e.target.className = "form-control";
+
+    const Cnpj = e.target.value;
+
+    resultado = cnpjValidation(Cnpj);
+
+    if (resultado === false) {
+      setTextoAlerta("CNPJ Invalido")
+      e.target.className = "form-control invalid-input"
+    }
+
+    setCnpj(Cnpj)
   }
 
   function onCpfContatoChange(e) {
@@ -199,7 +277,7 @@ export const Cadastrocompany = () => {
         </div>
 
         <div className="form-group">
-          <input className="form-control" id="cnpj-input" placeholder="CNPJ" value={Cnpj} onChange={(e) => setCnpj(e.target.value)} />
+          <input className="form-control" id="cnpj-input" placeholder="CNPJ" value={Cnpj} onChange={onCnpjChange} />
         </div>
 
         <div className="form-group">
