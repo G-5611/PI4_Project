@@ -16,6 +16,12 @@ export const Navbar = ({
   const [FiltrarResults, setFiltrarResults] = useState([]);
   const [RefWidth, setRefWidth] = useState(0);
   const [UserID, setUserID] = useState(0);
+  const [Type, setType] = useState("");
+
+  useEffect(() => {
+    const type = localStorage.getItem('type');
+    setType(type);
+  }, [localStorage]);
 
   useEffect(() => {
     setUserID(userID);
@@ -54,7 +60,7 @@ export const Navbar = ({
                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={`/profileuser/${UserID}`}>Perfil</Link>
+                <Link className="nav-link" to={`/${Type === "user" ? "profileuser" : "profilecompany"}/${UserID}`}>Perfil</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={`/vacancy/${UserID}/0`}>Vagas</Link>

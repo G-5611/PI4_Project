@@ -44,7 +44,9 @@ async function vacancyCreate(req, res) {
   try {
     const bodyData = req.body;
 
-    const query = `INSERT INTO TA_VAGA (NAMEVAGA, DESCVAGA, FK_EMPRESA) VALUES ('${bodyData.nome}', '${bodyData.desc}', '${bodyData.id}');`;
+    const query = `INSERT INTO TA_VAGA (NAMEVAGA, DESCVAGA, TIPO, LOCAL, EMAIL, TELEFONE ,FK_EMPRESA) VALUES ('${bodyData.nome}', '${bodyData.desc}','${bodyData.tipo}', '${bodyData.local}', '${bodyData.email}', '${bodyData.telefone}' ,'${bodyData.id}');`;
+
+    console.log(query);
 
     connection = await new sql.ConnectionPool(config.db_settings).connect();
 
@@ -75,7 +77,7 @@ async function getVacancy(req, res) {
   try {
     const id = req.query.id;
 
-    const query = `SELECT NAMEVAGA, DESCVAGA, UENOMEFANTASIA, UEEMAILCONTATO FROM TA_VAGA V INNER JOIN TB_USEREMPRESA E ON V.FK_EMPRESA = E.UEID WHERE ID = '${id}'`
+    const query = `SELECT NAMEVAGA, DESCVAGA, EMAIL, TELEFONE, TIPO, LOCAL ,UENOMEFANTASIA FROM TA_VAGA V INNER JOIN TB_USEREMPRESA E ON V.FK_EMPRESA = E.UEID WHERE ID = '${id}'`
 
     connection = await new sql.ConnectionPool(config.db_settings).connect();
 
@@ -93,7 +95,10 @@ async function getVacancy(req, res) {
       "name": result.recordset[0].NAMEVAGA,
       "desc": result.recordset[0].DESCVAGA,
       "empresa": result.recordset[0].UENOMEFANTASIA,
-      "email": result.recordset[0].UEEMAILCONTATO,
+      "telefone": result.recordset[0].TELEFONE,
+      "tipo": result.recordset[0].TIPO,
+      "local": result.recordset[0].LOCAL,
+      "email": result.recordset[0].EMAIL,
     }
 
     res.writeHead(200, { 'Content-Type': 'application/json' });

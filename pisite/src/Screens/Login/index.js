@@ -20,6 +20,8 @@ export const Login = (props) => {
 
       const res = await axios.post(env.apiUrl + "login", body);
 
+      localStorage.setItem("type", "user");
+
       props.history.push(`/profileuser/${res.data.id}`);
     }
     catch (err) {

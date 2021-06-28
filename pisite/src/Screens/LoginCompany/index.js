@@ -21,6 +21,8 @@ export const LoginCompany = (props) => {
 
       const res = await axios.post(env.apiUrl + "logincompany", body);
 
+      localStorage.setItem("type", "company");
+
       props.history.push(`/profilecompany/${res.data.id}`);
     }
     catch (err) {

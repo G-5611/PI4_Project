@@ -3,8 +3,11 @@ import React from "react";
 export const Detail = ({
   nome,
   empresa,
-  desc,
-  email
+  tipo,
+  local,
+  email,
+  telefone,
+  desc
 }) => {
 
 
@@ -13,6 +16,8 @@ export const Detail = ({
     <div className="panel-profile">
 
       <h3>Vaga de Emprego</h3>
+
+      <br />
 
       <div className="form-group row">
         <label className="col-sm-4 col-form-label text-left"><b>Nome:</b></label>
@@ -29,9 +34,16 @@ export const Detail = ({
       </div>
 
       <div className="form-group row">
-        <label className="col-sm-4 col-form-label text-left"><b>Descricao:</b></label>
+        <label className="col-sm-4 col-form-label text-left"><b>Tipo:</b></label>
         <div className="col-sm-7">
-          <div className="form-control-plaintext text-left">{desc}</div>
+          <div className="form-control-plaintext text-left">{tipo}</div>
+        </div>
+      </div>
+
+      <div className="form-group row">
+        <label className="col-sm-4 col-form-label text-left"><b>Local:</b></label>
+        <div className="col-sm-7">
+          <div className="form-control-plaintext text-left">{local}</div>
         </div>
       </div>
 
@@ -41,6 +53,22 @@ export const Detail = ({
           <div className="form-control-plaintext text-left">{email}</div>
         </div>
       </div>
+
+      <div className="form-group row">
+        <label className="col-sm-4 col-form-label text-left"><b>Telefone:</b></label>
+        <div className="col-sm-7">
+          <div className="form-control-plaintext text-left">{telefone}</div>
+        </div>
+      </div>
+
+      <div className="form-group row">
+        <label className="col-sm-4 col-form-label text-left"><b>Descricao:</b></label>
+        <div className="col-sm-7">
+          <div className="form-control-plaintext text-left">{desc}</div>
+        </div>
+      </div>
+
+
     </div>
 
   )
