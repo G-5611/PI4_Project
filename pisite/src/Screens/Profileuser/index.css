@@ -1,0 +1,11 @@
+.panel-profile{
+  padding-top: 70px;
+  padding-bottom: 70px;
+  width: 700px;
+  margin: 0 auto;
+}
+
+.profile-pic{
+  width: 300px;
+  height: 300px;
+}
