@@ -46,8 +46,6 @@ async function vacancyCreate(req, res) {
 
     const query = `INSERT INTO TA_VAGA (NAMEVAGA, DESCVAGA, TIPO, LOCAL, EMAIL, TELEFONE ,FK_EMPRESA) VALUES ('${bodyData.nome}', '${bodyData.desc}','${bodyData.tipo}', '${bodyData.local}', '${bodyData.email}', '${bodyData.telefone}' ,'${bodyData.id}');`;
 
-    console.log(query);
-
     connection = await new sql.ConnectionPool(config.db_settings).connect();
 
     const result = await connection.request().query(query);
@@ -62,6 +60,39 @@ async function vacancyCreate(req, res) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
       "msg": "Vaga criada."
+    }));
+  }
+  catch (err) {
+    console.log(err)
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      "err": err
+    }));
+  }
+}
+
+async function applyVacancy(req, res) {
+  try {
+    const bodyData = req.body;
+
+    const query = `INSERT INTO TA_CANDIDATURA (FK_VAGA, FK_USUARIO, IND_ACEITO) VALUES ('${bodyData.vagaid}', '${bodyData.userid}', NULL);`;
+
+    console.log(query);
+
+    connection = await new sql.ConnectionPool(config.db_settings).connect();
+
+    const result = await connection.request().query(query);
+
+    if (result.rowsAffected.length === 0) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        "err": "Houve um erro na criação da candidatura!"
+      }));
+      return;
+    }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      "msg": "Candidatura Registrada."
     }));
   }
   catch (err) {
@@ -410,6 +441,7 @@ module.exports = {
   vacancyCreate: vacancyCreate,
   search: search,
   getVacancy: getVacancy,
+  applyVacancy: applyVacancy,
   changePasswordUser: changePasswordUser,
   changePasswordCompany: changePasswordCompany
 }

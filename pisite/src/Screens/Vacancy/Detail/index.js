@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom"
+import axios from "axios";
+import env from "./../../../env.json";
 
 export const Detail = ({
   nome,
@@ -7,8 +10,34 @@ export const Detail = ({
   local,
   email,
   telefone,
-  desc
+  desc,
+  vacancyid,
+  userid
 }) => {
+
+  const [TipoAlertText, setTipoAlertText] = useState("danger")
+  const [Erro, setErro] = useState("");
+
+  async function ApplyVacancy(e) {
+    try {
+      const body = {
+        userid: userid,
+        vagaid: vacancyid
+      };
+
+      const res = await axios.post(env.apiUrl + "vacancy/apply", body);
+
+      setErro(res.data.msg);
+      setTipoAlertText('success');
+    }
+
+    catch (err) {
+      const erro = err.response ? err.response.data.err : err;
+      setErro(erro ? erro : "Houve um erro ao criar a candidatura.");
+      setTipoAlertText('danger')
+    }
+  }
+
 
 
   return (
@@ -68,7 +97,8 @@ export const Detail = ({
         </div>
       </div>
 
-
+      <button className='btn btn-primary' onClick={ApplyVacancy} >Candidatar-se</button>
+      {Erro && <div className={`'alert alert-${TipoAlertText}'`}>{Erro}</div>}
     </div>
 
   )
