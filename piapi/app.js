@@ -44,6 +44,10 @@ app.post("/user/profile/password/company", (req, res) => api.changePasswordCompa
 app.post("/logincompany", (req, res) => api.logincompany(req, res));
 app.get("/vacancy", (req, res) => api.getVacancy(req, res));
 app.post("/vacancy/create", (req, res) => api.vacancyCreate(req, res));
+app.post("/vacancy/apply", (req, res) => api.applyVacancy(req, res));
 app.get("/search", (req, res) => api.search(req, res));
+app.get("/vacancy/userlist", (req, res) => api.vacancyUserList(req, res));
+app.get("/vacancy/companylist", (req, res) => api.vacancyCompanyList(req, res));
+app.post("/vacancy/companyeditstatus", (req, res) => api.alterarsituacaocandidato(req, res));
 
 module.exports = app;

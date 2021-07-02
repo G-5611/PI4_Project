@@ -64,6 +64,8 @@ export const Vacancy = ({
           tipo={Tipo}
           email={Email}
           desc={Desc}
+          vacancyid={ID}
+          userid={UserID}
         />
       }
 
