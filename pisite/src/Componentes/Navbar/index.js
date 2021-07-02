@@ -63,7 +63,7 @@ export const Navbar = ({
                 <Link className="nav-link" to={`/${Type === "user" ? "profileuser" : "profilecompany"}/${UserID}`}>Perfil</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={`/vacancy/${UserID}/0`}>Vagas</Link>
+                <Link className="nav-link" to={`/${Type === "user" ? "uservacancylist" : "companyvacancylist"}/${UserID}`}>Vagas</Link>
               </li>
             </ul>
             <form className="form-inline my-2 my-lg-0" ref={ref}>

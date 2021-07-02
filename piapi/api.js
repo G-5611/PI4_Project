@@ -10,6 +10,7 @@ const { connect } = require('./app.js');
 
 let connection;
 
+
 async function search(req, res) {
   try {
     const query = "SELECT UENOMEFANTASIA AS 'empresa', NAMEVAGA AS 'vaga', ID AS 'id' FROM TB_USEREMPRESA E INNER JOIN TA_VAGA V ON E.UEID = V.FK_EMPRESA;";
@@ -33,6 +34,130 @@ async function search(req, res) {
   }
   catch (err) {
     console.log(err)
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      "err": err
+    }));
+  }
+}
+
+async function alterarsituacaocandidato(req, res) {
+  try {
+    const bodyData = req.body;
+
+    const updatequery = `UPDATE TA_CANDIDATURA SET IND_ACEITO = '${bodyData.situacao}' WHERE ID = '${bodyData.id}';`
+
+    connection = await new sql.ConnectionPool(config.db_settings).connect();
+
+    const result = await connection.request().query(updatequery);
+
+    if (result.rowsAffected.length === 0) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        "err": "Houve um erro no Delete!"
+      }));
+      return;
+    }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      "msg": "Usuario Excluido."
+    }));
+  }
+  catch (err) {
+    console.log(err);
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      "err": err
+    }));
+  }
+}
+async function vacancyCompanyList(req, res) {
+  try {
+    const id = req.query.id;
+
+    const query = `SELECT C.ID AS 'VAGAID',P.UPID AS 'USERID', P.UPNOME AS 'NOMECANDIDATO' , P.UPCIDADE AS 'CIDADE', P.UPEMAIL AS 'EMAIL', P.UPTELEFONE AS 'TELEFONE', P.UPCURSO AS 'CURSO', C.IND_ACEITO AS 'ACEITO', V.NAMEVAGA AS 'NOMEVAGA' FROM TB_USERPESSOA P 
+    INNER JOIN TA_CANDIDATURA C ON P.UPID = C.FK_USUARIO 
+    INNER JOIN TA_VAGA V ON C.FK_VAGA = V.ID  
+    INNER JOIN TB_USEREMPRESA E ON E.UEID = V.FK_EMPRESA
+    WHERE UEID = '${id}' ;`
+
+    connection = await new sql.ConnectionPool(config.db_settings).connect();
+
+    const result = await connection.request().query(query);
+
+    if (result.rowsAffected.length === 0) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        "err": "Houve um erro ao buscar os dados das vagas!"
+      }));
+      return;
+    }
+
+    let info = [];
+
+    console.log(result)
+
+    for (let i = 0; i < result.recordset.length; i++) {
+      info[i] = {
+        nomecandidato: result.recordset[i].NOMECANDIDATO,
+        cidade: result.recordset[i].CIDADE,
+        email: result.recordset[i].EMAIL,
+        telefone: result.recordset[i].TELEFONE,
+        vagaid: result.recordset[i].VAGAID,
+        nomevaga: result.recordset[i].NOMEVAGA,
+        aceito: result.recordset[i].ACEITO,
+      };
+    }
+
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(info));
+  }
+  catch (err) {
+    console.log(err);
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      "err": err
+    }));
+  }
+}
+async function vacancyUserList(req, res) {
+  try {
+
+    const id = req.query.id;
+
+    const query = `SELECT V.NAMEVAGA AS 'nomevaga', V.TIPO AS 'tipovaga', V.[LOCAL] AS 'local', V.TIPO AS 'tipo', E.UENOMEFANTASIA AS 'nomeempresa', C.FK_USUARIO AS 'userid' , C.IND_ACEITO AS 'aceito'  FROM TA_VAGA AS V INNER JOIN TA_CANDIDATURA AS C ON V.ID = C.FK_VAGA INNER JOIN TB_USEREMPRESA AS E ON V.FK_EMPRESA = E.UEID WHERE C.FK_USUARIO = '${id}'`
+
+    connection = await new sql.ConnectionPool(config.db_settings).connect();
+
+    const result = await connection.request().query(query);
+
+    if (result.rowsAffected.length === 0) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        "err": "Houve um erro ao buscar os dados da vagas!"
+      }));
+      return;
+    }
+
+    let info = [];
+
+    console.log(result)
+
+    for (let i = 0; i < result.recordset.length; i++) {
+      info[i] = {
+        nomevaga: result.recordset[i].nomevaga,
+        nomeempresa: result.recordset[i].nomeempresa,
+        tipo: result.recordset[i].tipovaga,
+        local: result.recordset[i].local,
+        aceito: result.recordset[i].aceito,
+      };
+    }
+
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(info));
+  }
+  catch (err) {
+    console.log(err);
     res.writeHead(500, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
       "err": err
@@ -443,5 +568,8 @@ module.exports = {
   getVacancy: getVacancy,
   applyVacancy: applyVacancy,
   changePasswordUser: changePasswordUser,
-  changePasswordCompany: changePasswordCompany
+  changePasswordCompany: changePasswordCompany,
+  vacancyUserList: vacancyUserList,
+  vacancyCompanyList: vacancyCompanyList,
+  alterarsituacaocandidato: alterarsituacaocandidato
 }
