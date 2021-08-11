@@ -13,7 +13,10 @@ export const Vacancy = ({
 
   const [Nome, setNome] = useState("");
   const [Desc, setDesc] = useState("");
+  const [Telefone, setTelefone] = useState("");
   const [Email, setEmail] = useState("");
+  const [Local, setLocal] = useState("");
+  const [Tipo, setTipo] = useState("");
   const [Empresa, setEmpresa] = useState("");
   const [ListVacancy, setListVacancy] = useState([]);
   const [ID, setID] = useState(0);
@@ -34,6 +37,9 @@ export const Vacancy = ({
       setDesc(res.desc);
       setEmail(res.email);
       setEmpresa(res.empresa);
+      setLocal(res.local);
+      setTipo(res.tipo);
+      setTelefone(res.telefone);
       setListVacancy([]);
     }
 
@@ -52,9 +58,14 @@ export const Vacancy = ({
       {ID > 0 &&
         <Detail
           nome={Nome}
-          desc={Desc}
-          email={Email}
           empresa={Empresa}
+          telefone={Telefone}
+          local={Local}
+          tipo={Tipo}
+          email={Email}
+          desc={Desc}
+          vacancyid={ID}
+          userid={UserID}
         />
       }
 

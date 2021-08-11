@@ -10,6 +10,8 @@ import { Profilecompany } from './Screens/PorfileCompany';
 import { Vacancy } from './Screens/Vacancy';
 import { VagaCreate } from './Screens/VagaCreate';
 import { RecuperarSenha } from './Screens/RecoverPassword'
+import { ListaUserVagas } from './Screens/Vacancy/UserVacancyList'
+import { ListaCompanyVagas } from './Screens/Vacancy/CompanyVacancyList'
 
 function App() {
   return (
@@ -30,6 +32,10 @@ function App() {
           <Route exact path="/vacancy" component={Vacancy} />
           <Route path="/vacancy/:id/:vacancyId" component={Vacancy} />
           <Route exact path="/recuperarsenha" component={RecuperarSenha} />
+          <Route path="/uservacancylist/:id" component={ListaUserVagas} />
+          <Route exact path="/uservacancylist" component={ListaUserVagas} />
+          <Route path="/companyvacancylist/:id" component={ListaCompanyVagas} />
+          <Route exact path="/companyvacancylist" component={ListaCompanyVagas} />
         </Switch>
       </HashRouter>
     </div>

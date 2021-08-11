@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import moment from "moment";
 import "./index.css"
 import { Link } from "react-router-dom"
 import env from "./../../env.json"

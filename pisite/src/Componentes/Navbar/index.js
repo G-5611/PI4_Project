@@ -11,34 +11,17 @@ export const Navbar = ({
 }) => {
   const ref = useRef(null);
 
-  const mockSearchResults = [
-    {
-      vaga: "programador junior",
-      empresa: "microsoft"
-    },
-    {
-      vaga: "assistente de redes",
-      empresa: "google"
-    },
-    {
-      vaga: "programador web",
-      empresa: "adidas"
-    },
-    {
-      vaga: "assistente de ti",
-      empresa: "discord"
-    },
-    {
-      vaga: "auxiliar de testes",
-      empresa: "bing"
-    }
-  ];
-
   const [SearchRes, setSearchRes] = useState([]);
   const [Search, setSearch] = useState("");
   const [FiltrarResults, setFiltrarResults] = useState([]);
   const [RefWidth, setRefWidth] = useState(0);
   const [UserID, setUserID] = useState(0);
+  const [Type, setType] = useState("");
+
+  useEffect(() => {
+    const type = localStorage.getItem('type');
+    setType(type);
+  }, [localStorage]);
 
   useEffect(() => {
     setUserID(userID);
@@ -77,10 +60,10 @@ export const Navbar = ({
                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={`/profileuser/${UserID}`}>Perfil</Link>
+                <Link className="nav-link" to={`/${Type === "user" ? "profileuser" : "profilecompany"}/${UserID}`}>Perfil</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={`/vacancy/${UserID}/0`}>Vagas</Link>
+                <Link className="nav-link" to={`/${Type === "user" ? "uservacancylist" : "companyvacancylist"}/${UserID}`}>Vagas</Link>
               </li>
             </ul>
             <form className="form-inline my-2 my-lg-0" ref={ref}>
